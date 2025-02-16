@@ -14,6 +14,8 @@ import AdminLayout from './admin/AdminLayout.jsx';
 import ForgetPassword from './admin/forgetPassword.jsx';
 import AdminProtected from './admin/adminProtected.jsx';
 import CheckQuestion from './admin/checkQuestion.jsx';
+import NewPatient from './admin/NewPatient.jsx';
+import SendEmail from './admin/sendEmail.jsx';
 
 function App() {
   const router = createBrowserRouter(
@@ -22,9 +24,10 @@ function App() {
         {/* Public Routes */}
         <Route path="/Adminregistration" element={<AdminRegistration/>} />
         <Route path="/Adminlogin" element={<AdminLogin />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
         
 
-        <Route path="/registration" element={<Registration />} />
+       
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
 
@@ -40,7 +43,9 @@ function App() {
         <Route path="/" element={<AdminProtected><AdminLayout /></AdminProtected>}>
          
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="checkquestion" element={<CheckQuestion />} />
+          <Route path="newPatient" element={<NewPatient />} />
+          <Route path="sendEmail" element={<SendEmail />} />
+         <Route path="checkquestion" element={<CheckQuestion />} />
           
         </Route>
       </>

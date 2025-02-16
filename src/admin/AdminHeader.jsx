@@ -15,6 +15,16 @@ export default function Header() {
 
       {/* Navigation Links */}
       <ul className="flex space-x-6 justify-center text-lg">
+      <li>
+          <NavLink to="/newPatient" className="text-white hover:text-gray-200 transition">
+            New Patient 
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/sendEmail" className="text-white hover:text-gray-200 transition">
+             find and send mail
+          </NavLink>
+        </li>
         <li>
           <NavLink to="/checkquestion" className="text-white hover:text-gray-200 transition">
             check new Question

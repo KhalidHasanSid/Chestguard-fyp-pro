@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js ";
 import User from "../models/user.model.js";
 import auth from "../middlewares/auth.middleware.js";
 import transporter from "../utils/nodemailer.js";
+import Patient from "../models/patient.model.js";
 //import { setEmail,getemail,popemail } from "../utils/saveCurrentEmail.js";
 
 
@@ -13,37 +14,42 @@ import transporter from "../utils/nodemailer.js";
 
 
   const registerController=  asyncHandler( async(req, res ,next )=>{
-    const  {fullname ,email, password }=req.body
-    if(!fullname || !email || !password)  { throw new apiError(400,"you miss a variable")}
+    const  {MR_no,fullname,email,Age,gender,city }=req.body
+    if(!MR_no||!fullname || !email || !Age||!city || !gender)  { throw new apiError(400,"you miss a variable")}
 
-    console.log("hi",fullname,email,password);
+    console.log("hi",fullname,email,);
 
 
-      const existuser = await User.findOne({email})
+      const existuser = await User.findOne({MR_no})
 
       console.log("about this user ",existuser)
       if(existuser){ { 
         console.log("]]]]]]]]]]]]]]]]]]]",existuser.fullname)
         throw new apiError(400,"user already exist")}}
 
-      const newUser= await  User.create({
-        name:fullname,
+      const newPatient= await  Patient.create({
+        MR_no:MR_no,
+        fullName: fullname,
         email:email,
-        password:password
+        age:Age,
+        city:city,
+        gender:gender
+
+
 
       })
       console.log("------------------------------------------------------")
-       console.log(newUser)
+       console.log(newPatient)
        
 
-       const chk_newUser= await User.findById(newUser._id).select("-password -refreshtoken")
-       if(!chk_newUser){throw new apiError(409,"something went wrong while registration")}
+       const chk_newPatient= await Patient.findById(newPatient._id)
+       if(!chk_newPatient){throw new apiError(409,"something went wrong while registration")}
 
 
 
 
   
-     res.json(new apiResponse(200,chk_newUser,"successsfull"))
+     res.json(new apiResponse(200,chk_newPatient,"successsfull"))
 
 
   })
