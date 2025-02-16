@@ -1,13 +1,17 @@
 import { Router } from "express";
-import { registerController ,loginUserController,logoutController} from "../controllers/user.comtroller.js";
+import { registerController ,loginUserController,logoutController, getPatient ,SendEmail} from "../controllers/user.comtroller.js";
 import auth from "../middlewares/auth.middleware.js";
 import { sendCode,checkOTP, updatePassword ,authchecker} from "../controllers/user.comtroller.js";
+;
 
 
 const userRouter= Router()
 
 
 userRouter.route("/registerFYP").post(registerController)
+userRouter.route("/getPatients/:MR_no").get(auth,getPatient)
+userRouter.route("/sendemail").post(auth,SendEmail)
+
 userRouter.route("/loginFYP").post(loginUserController)  
 userRouter.route("/auth").post(auth,authchecker)  
 

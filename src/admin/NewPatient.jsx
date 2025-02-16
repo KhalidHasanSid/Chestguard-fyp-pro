@@ -18,6 +18,7 @@ export default function NewPatient() {
     e.preventDefault();
 
     try {
+      console.log( MR_no, fullname,email, Age, gender, city)
       const response = await axios.post('http://localhost:4500/api/v1/chestguarduser/registerFYP', {
         MR_no,
         fullname,
@@ -25,7 +26,7 @@ export default function NewPatient() {
         Age,
         gender,
         city
-      });
+      },{withCredentials:true});
 
       console.log('Registration successful:', response.data);
       setSuccess('Registration successful! You can now login.');

@@ -15,25 +15,30 @@ import Patient from "../models/patient.model.js";
 
   const registerController=  asyncHandler( async(req, res ,next )=>{
     const  {MR_no,fullname,email,Age,gender,city }=req.body
+
     if(!MR_no||!fullname || !email || !Age||!city || !gender)  { throw new apiError(400,"you miss a variable")}
 
-    console.log("hi",fullname,email,);
+    
+
+    console.log("hi",MR_no,fullname,email, typeof(Age));
 
 
-      const existuser = await User.findOne({MR_no})
 
-      console.log("about this user ",existuser)
-      if(existuser){ { 
-        console.log("]]]]]]]]]]]]]]]]]]]",existuser.fullname)
-        throw new apiError(400,"user already exist")}}
+      const existPatient = await Patient.findOne({MR_no})
+
+      console.log("about this user ",existPatient)
+
+      if(existPatient){ 
+        console.log("]]]]]]]]]]]]]]]]]]]",existPatient)
+        throw new apiError(425,"user already exist")}
 
       const newPatient= await  Patient.create({
         MR_no:MR_no,
         fullName: fullname,
         email:email,
         age:Age,
-        city:city,
-        gender:gender
+        gender:gender,
+        city:city
 
 
 
@@ -52,6 +57,70 @@ import Patient from "../models/patient.model.js";
      res.json(new apiResponse(200,chk_newPatient,"successsfull"))
 
 
+  })
+  const getPatient = asyncHandler(async (req,res)=>{
+    console.log("i AM HERE")
+    const MR_no=req.params.MR_no
+    
+    console.log(MR_no)
+
+    if(!MR_no){ throw new apiError(409,"mrno  not found")}
+
+    const patient = await Patient.findOne({MR_no})
+    console.log(patient)
+
+    if(!patient){throw new apiError(400,"patient not found ")}
+
+
+    res.json( new apiResponse(200,patient,"patient found!"))
+
+
+  })   
+
+  const SendEmail =asyncHandler(async (req,res)=>{   
+    console.log("=====================")
+    const{_id,password}=req.body
+
+    if(!_id||!password){throw new apiError(410,"something missing")}   
+    
+    console.log("//////////")
+
+    const patient= await Patient.findById(_id)
+    console.log(patient)
+
+    if(!patient){throw new apiError(400,"patient not  exist ")}  
+
+    patient.password = password
+    
+    const chk=await patient.save({validateBeforeSave: false}) 
+    console.log("...",chk)   
+    
+    const mailData = {
+      from: 'khalidhassan.kh705@gmail.com',  // sender address
+        to: patient.email,   // list of receivers
+        subject: 'Sending Email using Node.js',
+        text: `That was easy ${randomNumber}`,
+        html: `<b>Hey there! </b>  your id: ${patient.MR_no}   and password: ${password} `
+               
+      };
+       transporter.sendMail(mailData, function (err, info) {
+        if(err)
+         { console.log("////////////////////////////")
+          console.log(err)
+          throw new apiError(400,"hahahahahaahhah")}
+        //  res.json (new apiResponse(400,email,"email  not send "))}
+        else
+          console.log(info);
+        res.json (new apiResponse(200,email,"email send "))
+     });
+
+
+     
+   
+
+    
+
+    
   })
 
    const loginUserController=asyncHandler( async(req,res,next)=>{
@@ -196,4 +265,4 @@ import Patient from "../models/patient.model.js";
     
 
 
-  export  {registerController, loginUserController,logoutController , sendCode, checkOTP,updatePassword ,authchecker }
+  export  {registerController ,getPatient,SendEmail,loginUserController,logoutController , sendCode, checkOTP,updatePassword ,authchecker }

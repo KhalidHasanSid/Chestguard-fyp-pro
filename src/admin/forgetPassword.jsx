@@ -6,7 +6,7 @@ import SetNewPassword from './setNewPassword.jsx';
 export default function ForgetPassword() {
     const [code, setCode] = useState("");
     const [email, setEmail] = useState("");
-    const [flag, setFlag] = useState(0); // <-- Use state instead of variable
+    const [flag, setFlag] = useState(0); 
     const navigate = useNavigate();
 
     const sendCode = async () => {
@@ -18,7 +18,7 @@ export default function ForgetPassword() {
             console.log(response.data.statusCode);  
 
             if (response.data.statusCode === 200) {
-                setFlag(1);  // <-- Update state, triggering a re-render
+                setFlag(1);  
             } else {
                 setFlag(2);
             }

@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const pateintSchema =new mongoose.Schema({
     MR_no:
@@ -13,7 +15,7 @@ const pateintSchema =new mongoose.Schema({
     {
         type: String,
         required:true,
-        unique:true,
+       
         trim:true
 
     },
@@ -29,7 +31,7 @@ const pateintSchema =new mongoose.Schema({
     {
         type: Number,
         required:true,
-        unique:true,
+       
         trim:true
 
     },
@@ -37,7 +39,6 @@ const pateintSchema =new mongoose.Schema({
     {
         type: String,
         required:true,
-        unique:true,
         trim:true
 
     },
@@ -47,14 +48,37 @@ const pateintSchema =new mongoose.Schema({
     {
         type: String,
         required:true,
-        unique:true,
         trim:true
 
-    },
+    }, 
+    password:{
+        type:String,
+        
+    }
 
 
 
 },{timestamps:true})
+
+
+pateintSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {return next();}
+    this.password = await  bcrypt.hash(this.password, 10);
+    next();
+});
+
+pateintSchema.methods.validatePassword= async function (password) {
+   return  await  bcrypt.compare(password, this.password)
+}
+
+pateintSchema.methods.generateAccessToken=async function(){
+     return  jwt.sign({_id:this._id},process.env.ACCESS_TOKEN_SECRET,{ expiresIn:process.env.ACCESS_TOKEN_EXPIRY})
+}
+pateintSchema.methods.generateRefreshToken=async function(){
+   return   jwt.sign({_id:this._id},
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
+}
 
 
 const Patient = mongoose.model("Patient",pateintSchema)
