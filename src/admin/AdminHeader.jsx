@@ -14,7 +14,12 @@ export default function Header() {
       </NavLink>
 
       {/* Navigation Links */}
-      <ul className="flex space-x-6 justify-center text-lg">
+      <ul className="flex space-x-6 justify-center text-lg"> 
+      <li>
+          <NavLink to="/detection" className="text-white hover:text-gray-200 transition">
+            detection
+          </NavLink>
+        </li>
       <li>
           <NavLink to="/newPatient" className="text-white hover:text-gray-200 transition">
             New Patient 

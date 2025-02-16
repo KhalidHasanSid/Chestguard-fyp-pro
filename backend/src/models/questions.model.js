@@ -1,5 +1,6 @@
 import mongoose , { Schema }from 'mongoose'
 import User from './user.model.js'
+import Patient from './patient.model.js'
 
 
 
@@ -36,9 +37,9 @@ const askQuestionSchema =mongoose.Schema({
         type:String,
 
     },
-    user:{
+    patient:{
         type:Schema.Types.ObjectId,
-        ref:"User"
+        ref:"Patient"
      }
 
 

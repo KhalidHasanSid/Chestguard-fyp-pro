@@ -2,12 +2,14 @@ import asyncHandler from "../utils/asyncHandler.js";
 import apiResponse from "../utils/apiResponse.js";
 import { apiError } from "../utils/apiError.js";
 
-const detectionController =asyncHandler((req,res)=>{
+const detectionController =asyncHandler((req,res,next)=>{
 
     console.log("Iam in the 3");
+    
 
-    const {Xray}=req.file
-    if(!Xray){throw new  apiError(409,"no image obtained")}
+    const xrayImage=req.file
+    console.log(xrayImage)
+    if(!xrayImage){throw new  apiError(409,"no image obtained")}
 
     const i = Math.random() < 0.5 ? 0 : 1;
 

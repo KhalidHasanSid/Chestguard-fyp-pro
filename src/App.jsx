@@ -4,7 +4,7 @@ import Login from './login.jsx';
 import Protected from './protected.jsx';
 import Layout from './layout.jsx';
 import Home from './home.jsx';
-import Detection from './detection.jsx';
+import Detection from './admin/detection.jsx';
 import AskQuestion from './askQuestion.jsx';
 import Faqs from './faqs.jsx';
 import AdminDashboard from './admin/AdminDashboard.jsx';
@@ -35,7 +35,7 @@ function App() {
         <Route path="/" element={<Protected><Layout /></Protected>}>
          
           <Route path="home" element={<Home />} />
-          <Route path="detection" element={<Detection />} />
+        
           <Route path="askQuestion" element={<AskQuestion />} />
           <Route path="faqs" element={<Faqs />} />
         </Route>
@@ -43,6 +43,7 @@ function App() {
         <Route path="/" element={<AdminProtected><AdminLayout /></AdminProtected>}>
          
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="detection" element={<Detection />} />
           <Route path="newPatient" element={<NewPatient />} />
           <Route path="sendEmail" element={<SendEmail />} />
          <Route path="checkquestion" element={<CheckQuestion />} />
