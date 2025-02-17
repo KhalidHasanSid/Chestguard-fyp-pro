@@ -47,7 +47,7 @@ export default function SendEmail() {
         { withCredentials: true }
       );
 
-      console.log(response)
+      console.log(res)
 
       
      

@@ -7,7 +7,6 @@ const pateintSchema =new mongoose.Schema({
     {
         type: String,
         required:true,
-        unique:true,
         trim:true
 
     },
@@ -23,13 +22,12 @@ const pateintSchema =new mongoose.Schema({
     {
         type: String,
         required:true,
-        unique:true,
         trim:true
 
     },
     age:
     {
-        type: Number,
+        type: String,
         required:true,
        
         trim:true

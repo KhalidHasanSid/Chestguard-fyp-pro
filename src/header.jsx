@@ -16,8 +16,8 @@ export default function Header() {
       {/* Navigation Links */}
       <ul className="flex space-x-6 justify-center text-lg">
         <li>
-          <NavLink to="/detection" className="text-white hover:text-gray-200 transition">
-            Detection
+          <NavLink to="/result" className="text-white hover:text-gray-200 transition">
+            Results
           </NavLink>
         </li>
         <li>

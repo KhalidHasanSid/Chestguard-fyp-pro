@@ -3,17 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 function Login(){
-  const [email ,setEmail]=React.useState("")
+  const [MR_no,setMR_no]=React.useState("")
   const [password ,setPassword]=React.useState("") 
   const navigate = useNavigate();
 
   const abc= async(e)=>{
     e.preventDefault();
-    console.log(email,"password",password)
+    console.log(MR_no,"password",password)
    
     try {
       const response = await axios.post('http://localhost:4500/api/v1/chestguarduser/loginFYP', {
-        email: email, 
+        MR_no: MR_no, 
         password: password,
       }, { withCredentials: true }); 
 
@@ -34,8 +34,8 @@ function Login(){
   return(
     <>
     <h1 className="text-3xl font-bold underline">heloo world</h1>
-      <label  >Email:</label>
-      <input  onChange={(e)=> setEmail(e.target.value)} type="text" />
+      <label  >MR_no:</label>
+      <input  onChange={(e)=> setMR_no(e.target.value)} type="text" />
       <label >Password:</label>
       <input onChange={(e)=> setPassword(e.target.value)} type="password" />
       <button onClick={abc} >Login</button>

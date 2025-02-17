@@ -20,19 +20,20 @@ import Patient from "../models/patient.model.js";
 
     
 
-    console.log("hi",MR_no,fullname,email, typeof(Age));
+    console.log("hi",MR_no,fullname,email, typeof(MR_no));
 
 
 
-      const existPatient = await Patient.findOne({MR_no})
+      const existPatient = await Patient.findOne({MR_no:MR_no})
 
       console.log("about this user ",existPatient)
 
       if(existPatient){ 
         console.log("]]]]]]]]]]]]]]]]]]]",existPatient)
-        throw new apiError(425,"user already exist")}
+        throw new apiError(399,"user already exist")}  
+        console.log("Before creating patient:", { MR_no, fullname, email, Age, gender, city });
 
-      const newPatient= await  Patient.create({
+      const newPatient= await Patient.create({
         MR_no:MR_no,
         fullName: fullname,
         email:email,

@@ -23,9 +23,9 @@ import AskQuestion from "../models/questions.model.js";
       const existuser = await User.findOne({email})
 
       console.log("about this user ",existuser)
-      if(existuser){ { 
+      if(existuser){ 
         console.log("]]]]]]]]]]]]]]]]]]]",existuser.fullname)
-        throw new apiError(400,"user already exist")}}
+        throw new apiError(400,"user already exist")}
 
       const newUser= await  User.create({
         AdminCardNo:AdminCardNo,
