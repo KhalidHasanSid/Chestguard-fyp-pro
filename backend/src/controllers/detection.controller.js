@@ -4,11 +4,11 @@ import { apiError } from "../utils/apiError.js";
 
 const detectionController =asyncHandler((req,res,next)=>{
 
-    console.log("Iam in the 3");
-    
+    console.log("HAN AMMMMAZ KIA SEEN HAI!!!!");
 
+    const {MR_no}=req.body
     const xrayImage=req.file
-    console.log(xrayImage)
+    console.log(MR_no,"========================================",xrayImage)
     if(!xrayImage){throw new  apiError(409,"no image obtained")}
 
     const i = Math.random() < 0.5 ? 0 : 1;

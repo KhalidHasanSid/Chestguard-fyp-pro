@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 import User from "../models/user.model.js";
 import { apiError } from "../utils/apiError.js";
+import Patient from "../models/patient.model.js";
 
 const auth =asyncHandler(async (req,res,next)=>{
     console.log("hi")
@@ -12,8 +13,11 @@ const auth =asyncHandler(async (req,res,next)=>{
 
     const decoded =jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     console.log("chk krha hun",decoded)
-    const user =await User.findById(decoded._id)
-    if(!user){throw new apiError(400," user he nh h ..................")}
+    let user =await User.findById(decoded._id)
+    if(!user){
+        user =await Patient.findById(decoded._id)
+        if(!user){
+        throw new apiError(400," user he nh h ..................")}}
     req.user=user 
     console.log("helo world",req.user)
     next();
