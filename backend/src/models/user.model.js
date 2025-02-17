@@ -6,10 +6,9 @@ import jwt from "jsonwebtoken"
 const user = mongoose.Schema({
     AdminCardNo:{
         type:Number,
-        lowercase:true,
-        unique:true,
-        trim:true,
-        index:true
+        required:true,
+        
+        trim:true
     },
     name:{
         type:String,

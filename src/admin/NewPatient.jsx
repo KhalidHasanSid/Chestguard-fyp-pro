@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 export default function NewPatient() {
-    const [MR_no, setMR_no] = useState( );
+    const [MR_no, setMR_no] = useState( "");
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [Age, setAge] = useState();

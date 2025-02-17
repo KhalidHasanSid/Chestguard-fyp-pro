@@ -13,52 +13,53 @@ import Patient from "../models/patient.model.js";
     let  randomNumber =0
 
 
-  const registerController=  asyncHandler( async(req, res ,next )=>{
-    const  {MR_no,fullname,email,Age,gender,city }=req.body
-
-    if(!MR_no||!fullname || !email || !Age||!city || !gender)  { throw new apiError(400,"you miss a variable")}
-
-    
-
-    console.log("hi",MR_no,fullname,email, typeof(MR_no));
-
-
-
-      const existPatient = await Patient.findOne({MR_no:MR_no})
-
-      console.log("about this user ",existPatient)
-
-      if(existPatient){ 
-        console.log("]]]]]]]]]]]]]]]]]]]",existPatient)
-        throw new apiError(399,"user already exist")}  
-        console.log("Before creating patient:", { MR_no, fullname, email, Age, gender, city });
-
-      const newPatient= await Patient.create({
-        MR_no:MR_no,
-        fullName: fullname,
-        email:email,
-        age:Age,
-        gender:gender,
-        city:city
-
-
-
-      })
-      console.log("------------------------------------------------------")
-       console.log(newPatient)
-       
-
-       const chk_newPatient= await Patient.findById(newPatient._id)
-       if(!chk_newPatient){throw new apiError(409,"something went wrong while registration")}
-
-
-
-
+    const registerController=  asyncHandler( async(req, res ,next )=>{
+      const  {MR_no,fullname,email,Age,gender,city }=req.body
   
-     res.json(new apiResponse(200,chk_newPatient,"successsfull"))
-
-
-  })
+      if(!MR_no||!fullname || !email || !Age||!city || !gender)  { throw new apiError(400,"you miss a variable")}
+  
+      
+  
+      console.log("hi",MR_no,fullname,email, typeof(MR_no));
+  
+  
+  
+        const existPatient = await Patient.findOne({MR_no:MR_no})
+  
+        console.log("about this patient ",existPatient)
+  
+        if(existPatient){ 
+          console.log("]]]]]]]]]]]]]]]]]]]",existPatient)
+          throw new apiError(399,"patient already exist")}  
+          
+  
+        const newPatient= await Patient.create({
+          MR_no:MR_no,
+          fullName: fullname,
+          email:email,
+          age:Age,
+          gender:gender,
+          city:city
+  
+  
+  
+        })
+        console.log("------------------------------------------------------")
+         console.log(newPatient)
+         
+  
+         const chk_newPatient= await Patient.findById(newPatient._id)
+         if(!chk_newPatient){throw new apiError(409,"something went wrong while registration")}
+  
+  
+  
+  
+    
+       res.json(new apiResponse(200,chk_newPatient,"successsfull"))
+  
+  
+    })
+  
   const getPatient = asyncHandler(async (req,res)=>{
     console.log("i AM HERE")
     const MR_no=req.params.MR_no
@@ -126,33 +127,33 @@ import Patient from "../models/patient.model.js";
 
    const loginUserController=asyncHandler( async(req,res,next)=>{
 
-      const {email, password}=req.body
+      const {MR_no, password}=req.body
 
-      console.log(email,"password",password)
+      console.log(MR_no,"password",password)
 
-      if(!email || !password){ throw new apiError(400, "something missing")}
+      if(!MR_no || !password){ throw new apiError(400, "something missing")}
 
 
-      const user = await User.findOne({email})
+      const patient = await Patient.findOne({MR_no})
 
-      if(!user){ throw new apiError(400, "user does not in the database")}
+      if(!patient){ throw new apiError(400, "user does not in the database")}
 
-      console.log(Boolean(user))
+      console.log(Boolean(patient))
 
       let ok = false
-      ok= await  user.validatePassword(password)
+      ok= await  patient.validatePassword(password)
       console.log(Boolean(ok));
 
       if(!ok){ throw new apiError(400,"password is incorrect")}
 
       
         console.log("welcome you ate login ")
-        const ACCESSTOKEN = await  user.generateAccessToken(user._id)
-        const RefreshTOKEN = await  user.generateRefreshToken(user._id)
+        const ACCESSTOKEN = await  patient.generateAccessToken(patient._id)
+        const RefreshTOKEN = await  patient.generateRefreshToken(patient._id)
 
           if(!RefreshTOKEN){ throw new apiError(400,"no refresh token found ")}
-           user.refresh_token=RefreshTOKEN
-          await user.save({ validateBeforeSave: false })
+           patient.refresh_token=RefreshTOKEN
+          await patient.save({ validateBeforeSave: false })
         console.log("accestoken",ACCESSTOKEN,"\nRefresh token",RefreshTOKEN)
 
         
