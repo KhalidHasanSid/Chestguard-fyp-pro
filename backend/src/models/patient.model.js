@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 const pateintSchema =new mongoose.Schema({
     MR_no:
     {
-        type: Number,
+        type: String,
         unique:true,
         required:true,
         trim:true
@@ -21,8 +21,7 @@ const pateintSchema =new mongoose.Schema({
     email:
     {
         type: String,
-        unique:true, 
-        required:true,
+       required:true,
         trim:true
 
     },

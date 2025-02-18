@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose ,{Schema}from "mongoose";
 
 
 const detectionSchema = mongoose.Schema({
@@ -8,7 +8,7 @@ const detectionSchema = mongoose.Schema({
         ref:"Patient"
      },
 
-     result: [
+     detection: [
            {
                xray: {type:String,
                 trim: true,
@@ -16,17 +16,15 @@ const detectionSchema = mongoose.Schema({
                      
                },
                date:{
-                type:Date,
+                type:String,
                 required:true
                },
                result:{
                 type:String,
                 required:true
-               },
-
-               conclusion:{
-                type:String
                }
+
+               
 
            }
      ]
