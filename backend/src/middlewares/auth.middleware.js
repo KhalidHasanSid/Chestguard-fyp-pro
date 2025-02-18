@@ -7,7 +7,11 @@ import Patient from "../models/patient.model.js";
 const auth =asyncHandler(async (req,res,next)=>{
     console.log("hi")
     try{
-    const token=req.cookies.accessTokens
+        console.log(req.cookies.accessToken)
+    const token=req.cookies.accessToken
+    console.log("_________")
+    console.log("==",token)
+
 
     if(!token){throw new apiError(400,"msla arha h ..........")}
 

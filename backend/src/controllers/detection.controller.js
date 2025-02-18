@@ -68,4 +68,22 @@ console.log("Query Result:", patientexist);
     res.json(new apiResponse(200,patientDetection,"result generated "))
 
 })
-export {detectionController}
+  const getDetectedResults = asyncHandler(async(req,res)=>{
+      const patient = req.user
+      
+
+
+
+
+      const result =await Detection.findOne({patient:patient._id})
+
+      res.json(new apiResponse(200, result.detection,"result recieve"))
+     
+  })   
+
+  const authchecker =asyncHandler((req,res)=>{
+    console.log("auth is working fine ")
+  })
+
+
+export {detectionController ,getDetectedResults,authchecker}

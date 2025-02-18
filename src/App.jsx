@@ -16,6 +16,7 @@ import AdminProtected from './admin/adminProtected.jsx';
 import CheckQuestion from './admin/checkQuestion.jsx';
 import NewPatient from './admin/NewPatient.jsx';
 import SendEmail from './admin/sendEmail.jsx';
+import Result from './Result.jsx';
 
 function App() {
   const router = createBrowserRouter(
@@ -35,6 +36,7 @@ function App() {
         <Route path="/" element={<Protected><Layout /></Protected>}>
          
           <Route path="home" element={<Home />} />
+          <Route path="result" element={<Result />} />
         
           <Route path="askQuestion" element={<AskQuestion />} />
           <Route path="faqs" element={<Faqs />} />

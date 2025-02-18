@@ -158,7 +158,7 @@ import Patient from "../models/patient.model.js";
 
         
 
-        res.cookie("accessTokens",ACCESSTOKEN, {
+        res.cookie("accessToken",ACCESSTOKEN, {
           httpOnly: true,
           secure: true, sameSite: "lax"}).cookie("Refresh",RefreshTOKEN , {
             httpOnly: true,
@@ -260,11 +260,9 @@ import Patient from "../models/patient.model.js";
        res.json(new apiResponse(200, {}, "Password changed successfully"))
     })
 
-    const authchecker =asyncHandler((req,res)=>{
-      console.log("auth is working fine ")
-    })
+    
     
     
 
 
-  export  {registerController ,getPatient,SendEmail,loginUserController,logoutController , sendCode, checkOTP,updatePassword ,authchecker }
+  export  {registerController ,getPatient,SendEmail,loginUserController,logoutController , sendCode, checkOTP,updatePassword  }
