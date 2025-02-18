@@ -7,7 +7,7 @@ const Detection = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [MR_no, setMR_no] = useState("");
   const [loading, setLoading] = useState(false);
-  const [findings, setFindings] = useState(null);
+  const [result, setResult]= useState("")
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -39,7 +39,8 @@ const Detection = () => {
         formData,
         { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true }
       );
-      setFindings(response.data);
+      console.log("checking---",response.data.data.detection[0].result)
+      setResult(response.data.data.detection[0].result);
     } catch (error) {
       console.error("Error analyzing X-ray:", error);
       alert("An error occurred during analysis.");
@@ -52,7 +53,7 @@ const Detection = () => {
     setXrayImage(null);
     setImagePreview(null);
     setMR_no("");
-    setFindings(null);
+    setResult("");
   };
 
   return (
@@ -102,12 +103,11 @@ const Detection = () => {
         </button>
 
       
-        {findings && (
+        {result && (
           <div className="mt-6 bg-gray-700 p-4 rounded-lg">
             <h2 className="text-lg font-bold text-cyan-400">Analysis Result</h2>
-            <p className="text-white">Consolidation: {findings.consolidation}</p>
-            <p className="text-white">Respiratory Disease: {findings.respiratoryDisease}</p>
-            <p className="text-white">Pneumonia: {findings.pneumonia}</p>
+            <p className="text-white">Consolidation: {result}</p>
+           
           </div>
         )}
       </div>

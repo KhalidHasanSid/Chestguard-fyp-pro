@@ -16,8 +16,8 @@ const detectionSchema = mongoose.Schema({
                      
                },
                date:{
-                type:String,
-                required:true
+                type:Date,
+                default: new Date()
                },
                result:{
                 type:String,

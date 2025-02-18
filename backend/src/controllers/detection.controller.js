@@ -9,9 +9,9 @@ const detectionController =asyncHandler(async (req,res,next)=>{
 
     console.log("HAN AMMMMAZ KIA SEEN HAI!!!!");
 
-    const MR_no=Number(req.params.MR_no)
+    const MR_no=req.params.MR_no.trim()
     const xrayImage=req.file
-    console.log(MR_no)
+    console.log("kia:",MR_no)
     console.log(typeof(MR_no),"========================================",typeof(xrayImage.path))
     // if(!xrayImage.path){throw new  apiError(409,"no image obtained")}
    
@@ -30,21 +30,23 @@ const detectionController =asyncHandler(async (req,res,next)=>{
     if(!image){throw new apiError(499,"image url is missing ")}
    
 
-    const allPatients = await Patient.find({});
-console.log("All Patients:", allPatients);
+  
 
-const patient = await Patient.findOne({ MR_no: { $gte: MR_no, $lte: MR_no } })
-console.log("Query Result:", patient);
+const patientexist = await Patient.findOne({MR_no:MR_no} )
+console.log("Query Result:", patientexist);
+
     
 
-    let patientDetection =await Detection.findOne({patient:patient._id})
+    let patientDetection =await Detection.findOne({patient:patientexist._id})
+
+    console.log(patientDetection,"==========================")
 
     if(!patientDetection){
         patientDetection=await Detection.create({
-    patient:MR_no,
+    patient:patientexist._id,
     detection:[
        { xray:image.url,
-        
+         date: new Date(),
         result:resulttemp
     }
 
@@ -54,7 +56,7 @@ console.log("Query Result:", patient);
     
 
 
-    res.json(new apiResponse(200,patient,"result generated "))
+    res.json(new apiResponse(200,patientDetection,"result generated "))
 
 })
 export {detectionController}
