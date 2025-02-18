@@ -12,71 +12,80 @@ export default function CheckQuestion() {
         const response = await axios.get(
           "http://localhost:4500/api/v1/chestguardquestion/getquestions"
         );
-        console.log(response.data.data)
         setInfo(response.data.data);
       } catch (err) {
         console.error("Error fetching questions:", err);
       }
     };
 
-  
-    setInterval(fetchData,10000);
+    setInterval(fetchData, 10000);
     fetchData();
   }, []);
- 
-
 
   const handlesubmit = async (_id) => {
     setApproved(true);
-
     try {
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:4500/api/v1/chestguard/A",
         { _id, approved, reply },
         { withCredentials: true }
       );
-
-      
       setInfo((prevInfo) => prevInfo.filter((item) => item._id !== _id));
     } catch (err) {
       console.error("Error approving question:", err);
     }
   };
-   const deletesubmit=(_id)=>{
-    try{ 
-      const response= axios.post( "http://localhost:4500/api/v1/chestguard/deletequestion" ,{_id},{ withCredentials: true })
-      setInfo((prev)=> prev.filter((eachValue)=>eachValue._id!==_id ))
+
+  const deletesubmit = (_id) => {
+    try {
+      axios.post(
+        "http://localhost:4500/api/v1/chestguard/deletequestion",
+        { _id },
+        { withCredentials: true }
+      );
+      setInfo((prev) => prev.filter((eachValue) => eachValue._id !== _id));
+    } catch (err) {
+      console.error("Error deleting question:", err);
     }
-    catch(err){}
-   }
+  };
 
   return (
-    <>
-      <h1>Data</h1>
-
-      {info.map((eachValue) => (
-        <div
-          key={eachValue._id}
-          style={{
-            border: "2px solid red",
-            padding: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <h3>{eachValue._id}</h3>
-          <input type="text" readOnly value={eachValue.city} />
-          <h2>{eachValue.Problem_title}</h2>
-          <input type="text" readOnly value={eachValue.Description} />
-          <label>Reply:</label>
-          <input
-            type="text"
-            required
-            onChange={(e) => setReply(e.target.value)}
-          />
-          <button onClick={() => handlesubmit(eachValue._id)}>Approve</button>
-          <button onClick={() => deletesubmit(eachValue._id)}>delete</button>
-        </div>
-      ))}
-    </>
+    <div className="bg-white min-h-screen p-6">
+      <h1 className="text-2xl font-bold text-black mb-4">Questions</h1>
+      <div className="space-y-4">
+        {info.map((eachValue) => (
+          <div
+            key={eachValue._id}
+            className="border border-gray-300 p-4 rounded-lg shadow-sm bg-gray-100"
+          >
+            <h3 className="text-lg font-semibold text-black">ID: {eachValue._id}</h3>
+            <p className="text-black"><strong>City:</strong> {eachValue.city}</p>
+            <h2 className="text-xl font-bold text-black">{eachValue.Problem_title}</h2>
+            <p className="text-black">{eachValue.Description}</p>
+            <label className="block text-black mt-2">Reply:</label>
+            <input
+              type="text"
+              required
+              onChange={(e) => setReply(e.target.value)}
+              className="border border-black px-2 py-1 rounded w-full mt-1"
+            />
+            <div className="mt-3 space-x-2">
+              <button
+                onClick={() => handlesubmit(eachValue._id)}
+                className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => deletesubmit(eachValue._id)}
+                className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -5,6 +5,8 @@ import User from "../models/user.model.js";
 import auth from "../middlewares/auth.middleware.js";
 import transporter from "../utils/nodemailer.js";
 import AskQuestion from "../models/questions.model.js";
+import Patient from "../models/patient.model.js";
+import Detection from "../models/detection.model.js";
 //import { setEmail,getemail,popemail } from "../utils/saveCurrentEmail.js";
 
 
@@ -249,12 +251,18 @@ import AskQuestion from "../models/questions.model.js";
 
       console.log("hi getInsights")
 
-      let userCount = await User.countDocuments(); 
+      let userCount = await Patient.countDocuments(); 
           if(!userCount){throw new api(409,"count not found ")}
 
           userCount= userCount.toString()
           console.log(typeof(userCount))
-          res.json({userCount})
+
+
+          let chk = await  Detection.aggregate([{$unwind:'$detection'},{$group:{_id:'$detection.result' , count:{$sum:1}}}])
+          //await  Detection.aggregate([{$unwind:'$detection'},{$match:  {$or:[{'detection.result':'tuberclosiss'},{'detection.result':'pneumonia'}]}},{$group:{_id:'$detection.result'}} ,{$count:'total'}])        
+          console.log("=========",chk)
+
+          res.json({userCount,chk})
 
         
      })

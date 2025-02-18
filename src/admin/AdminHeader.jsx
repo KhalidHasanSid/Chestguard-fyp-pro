@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <nav className="bg-[#087198] py-3 px-6 rounded-full w-3/4 mx-auto mt-7 flex items-center justify-between">
+    <nav className="bg-white border border-black py-3 px-6 rounded-full w-3/4 mx-auto mt-7 flex items-center justify-between">
       {/* Logo */}
       <NavLink to="/home" className="flex items-center">
         <img 
@@ -16,28 +16,28 @@ export default function Header() {
       {/* Navigation Links */}
       <ul className="flex space-x-6 justify-center text-lg"> 
       <li>
-          <NavLink to="/detection" className="text-white hover:text-gray-200 transition">
-            detection
+          <NavLink to="/detection" className="text-black font-semibold hover:text-slate-600 transition">
+            Detection
           </NavLink>
         </li>
       <li>
-          <NavLink to="/newPatient" className="text-white hover:text-gray-200 transition">
+          <NavLink to="/newPatient" className="text-black font-semibold hover:text-slate-600 transition">
             New Patient 
           </NavLink>
         </li>
         <li>
-          <NavLink to="/sendEmail" className="text-white hover:text-gray-200 transition">
-             find and send mail
+          <NavLink to="/sendEmail" className="text-black font-semibold hover:text-slate-600 transition">
+             Find and send mail
           </NavLink>
         </li>
         <li>
-          <NavLink to="/checkquestion" className="text-white hover:text-gray-200 transition">
-            check new Question
+          <NavLink to="/checkquestion" className="text-black font-semibold hover:text-slate-600 transition">
+            Check new Question
           </NavLink>
         </li>
         <li>
-          <NavLink to="/askQuestion" className="text-white hover:text-gray-200 transition">
-            awareness update 
+          <NavLink to="/askQuestion" className="text-black font-semibold hover:text-slate-600 transition">
+            Awareness Update 
           </NavLink>
         </li>
         
