@@ -1,4 +1,5 @@
 import mongoose ,{Schema}from "mongoose";
+import Patient from "./patient.model.js";
 
 
 const detectionSchema = mongoose.Schema({
@@ -17,7 +18,7 @@ const detectionSchema = mongoose.Schema({
                },
                date:{
                 type:Date,
-                default: new Date()
+                required:true
                },
                result:{
                 type:String,

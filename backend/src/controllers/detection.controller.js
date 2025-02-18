@@ -52,6 +52,15 @@ console.log("Query Result:", patientexist);
 
     ]
     })}
+    else{
+
+    await  patientDetection.detection.push({ xray:image.url,
+        date: new Date(),
+       result:resulttemp
+   })}
+   patientDetection= await patientDetection.save()
+
+   console.log("hmmm",patientDetection)
 
     
 
