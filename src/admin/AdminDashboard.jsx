@@ -8,7 +8,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export default function AdminDashboard() {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({});  
+    const [cityData,setCityData] =useState([])
     const [pieData, setPieData] = useState(null);
 
     useEffect(() => {
@@ -17,6 +18,8 @@ export default function AdminDashboard() {
                 const response = await axios.get("http://localhost:4500/api/v1/chestguard/getInsights");
                 console.log(response)
                 setData(response.data);
+                setCityData(response.data.chk2)  
+                console.log(cityData)
             } catch (err) {
                 console.log("Error detected", err);
             }
@@ -53,13 +56,35 @@ export default function AdminDashboard() {
                 <h1 className="text-2xl font-bold text-gray-800 mb-2">Registered patients</h1>
                 <p className="text-xl text-gray-600">👥 Total Users</p>
                 <p className="text-4xl font-extrabold text-blue-600 mt-2">{data.userCount}</p>  
-            </div>   
+            </div>     
+
+
          
                 <div className="h-1/2 w-64">{pieData && <Pie data={pieData} />}</div> 
 
            
 
+                {cityData.map((eachValue) => (
+          <div
+            key={eachValue}
+            className="border border-gray-300 p-4 rounded-lg shadow-sm bg-black"
+          >    <div>{eachValue.city}
+             {
+                eachValue.results.map((i)=>(
+                    <h3 className="font-bold text-black-800">{i.result}:{i.count}</h3>
+                ))
+             }
+          
+          </div>  
+               
 
-        </div>
+
+
+          </div>))}
+
+
+        </div>    
+
+        
     );
 }

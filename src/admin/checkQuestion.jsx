@@ -18,7 +18,7 @@ export default function CheckQuestion() {
       }
     };
 
-    // setInterval(fetchData, 10000);
+    setInterval(fetchData, 10000);
     fetchData();
   }, []);
 

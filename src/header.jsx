@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <nav className="bg-[#087198] py-3 px-6 rounded-full w-3/4 mx-auto mt-7 flex items-center justify-between">
+    <nav className="bg-white border border-black py-3 px-6 rounded-full w-3/4 mx-auto mt-7 flex items-center justify-between">
       {/* Logo */}
       <NavLink to="/home" className="flex items-center">
         <img 
@@ -16,22 +16,22 @@ export default function Header() {
       {/* Navigation Links */}
       <ul className="flex space-x-6 justify-center text-lg">
         <li>
-          <NavLink to="/result" className="text-white hover:text-gray-200 transition">
+          <NavLink to="/result" className="text-black hover:text-slate-600 font-semibold transition">
             Results
           </NavLink>
         </li>
         <li>
-          <NavLink to="/askQuestion" className="text-white hover:text-gray-200 transition">
+          <NavLink to="/askQuestion" className="text-black hover:text-slate-600 font-semibold transition">
             Ask Question
           </NavLink>
         </li>
         <li>
-          <NavLink to="/faqs" className="text-white hover:text-gray-200 transition">
+          <NavLink to="/faqs" className="text-black hover:text-slate-600 font-semibold transition">
             FAQs
           </NavLink>
         </li>
         <li>
-          <NavLink to="/faqs" className="text-white hover:text-gray-200 transition">
+          <NavLink to="/faqs" className="text-black hover:text-slate-600 font-semibold transition">
             Article & Researches
           </NavLink>
         </li>

@@ -7,7 +7,7 @@ const detectionRouter =Router()
 
 detectionRouter.route("/sendImage/:MR_no").post( upload.single("xrayImage"), detectionController)
 //detectionRouter.route("/getRecords").post(getRecords)
-detectionRouter.route("/getDetectedResults").get( auth,getDetectedResults)
+detectionRouter.route("/getDetectedResults").get( auth, getDetectedResults)
 
 
 

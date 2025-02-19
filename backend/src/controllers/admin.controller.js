@@ -7,6 +7,7 @@ import transporter from "../utils/nodemailer.js";
 import AskQuestion from "../models/questions.model.js";
 import Patient from "../models/patient.model.js";
 import Detection from "../models/detection.model.js";
+import { _lookup } from "chart.js/helpers";
 //import { setEmail,getemail,popemail } from "../utils/saveCurrentEmail.js";
 
 
@@ -260,9 +261,55 @@ import Detection from "../models/detection.model.js";
 
           let chk = await  Detection.aggregate([{$unwind:'$detection'},{$group:{_id:'$detection.result' , count:{$sum:1}}}])
           //await  Detection.aggregate([{$unwind:'$detection'},{$match:  {$or:[{'detection.result':'tuberclosiss'},{'detection.result':'pneumonia'}]}},{$group:{_id:'$detection.result'}} ,{$count:'total'}])        
-          console.log("=========",chk)
+          console.log("=========",chk)      
 
-          res.json({userCount,chk})
+          let chk2 = await Patient.aggregate([
+            {
+                $lookup: {
+                    from: "detections",
+                    localField: "_id",
+                    foreignField: "patient",
+                    as: "patientdetections"
+                }
+            },
+            { $unwind: "$patientdetections" }, // Unwind detections
+            { $unwind: "$patientdetections.detection" }, // Unwind nested detection array
+            {
+                $group: {
+                    _id: { city: "$city", result: "$patientdetections.detection.result" }, 
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id.city",
+                    results: {
+                        $push: {
+                            result: "$_id.result",
+                            count: "$count"
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    city: "$_id",
+                    results: 1
+                }
+            }
+        ]);
+
+        
+        
+       
+        
+        
+        
+       
+        
+
+          res.json({userCount,chk ,chk2})
 
         
      })
