@@ -68,7 +68,7 @@ import Patient from "../models/patient.model.js";
 
     if(!MR_no){ throw new apiError(409,"mrno  not found")}
 
-    const patient = await Patient.findOne({MR_no})
+    const patient = await Patient.findOne({MR_no:MR_no})
     console.log(patient)
 
     if(!patient){throw new apiError(400,"patient not found ")}

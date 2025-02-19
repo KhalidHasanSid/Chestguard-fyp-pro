@@ -91,7 +91,7 @@ import Detection from "../models/detection.model.js";
       console.log("AccessToken:", ACCESSTOKEN, "\nRefresh token:", RefreshTOKEN);
   
       res
-        .cookie("accessTokens", ACCESSTOKEN, {
+        .cookie("accessToken", ACCESSTOKEN, {
           httpOnly: true,
           secure: true,
           sameSite: "lax",
@@ -129,7 +129,7 @@ import Detection from "../models/detection.model.js";
 
   return res
   .status(200)
-  .clearCookie("accessTokens", options)
+  .clearCookie("accessToken", options)
   .clearCookie("Refresh", options)
   .json(new apiResponse(200, {}, "User logged Out"))
        

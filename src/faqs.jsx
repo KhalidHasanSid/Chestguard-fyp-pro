@@ -1,17 +1,16 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Faqs() {
-  const [data, setData] = React.useState([]);
-  
+  const [data, setData] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4500/api/v1/chestguard/B",
-        );  
-        console.log(response.data.data)
+          "http://localhost:4500/api/v1/chestguard/B"
+        );
+        console.log(response.data.data);
         setData(response.data.data);
       } catch (err) {
         console.error("Error fetching questions:", err);
@@ -21,31 +20,27 @@ export default function Faqs() {
     fetchData();
   }, []);
 
- 
-
   return (
-    <>
-      <h1>Data</h1>
+    <div className="min-h-screen bg-gray-200 p-6">
+      <h1 className="text-2xl font-bold mb-6 text-black border-b pb-2">FAQs</h1>
 
       {data.map((eachValue) => (
         <div
           key={eachValue._id}
-          style={{
-            border: "2px solid red",
-            padding: "10px",
-            marginBottom: "10px",
-          }}
+          className="bg-white p-4 rounded-lg shadow-md mb-4 border border-black"
         >
-         
-          <input type="text" readOnly value={eachValue.city} />
-          <h2>{eachValue.Problem_title}</h2>
-          <input type="text" readOnly value={eachValue.Description} />
-          <label>Reply:</label>
-          <input type="text" readOnly value={eachValue.Reply} />
-         
-     
+          <p className="text-gray-700">
+            <span className="font-semibold text-black">City:</span> {eachValue.city}
+          </p>
+          <h2 className="text-lg font-bold text-black mt-2">{eachValue.Problem_title}</h2>
+          <p className="text-gray-700">
+            <span className="font-semibold text-black">Description:</span> {eachValue.Description}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-semibold text-black">Reply:</span> {eachValue.Reply}
+          </p>
         </div>
       ))}
-    </>
+    </div>
   );
 }

@@ -1,90 +1,112 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 
 export default function SendEmail() {
-  const [info, setInfo] = React.useState({});
-  const [MR_no, setMR_no] = React.useState( "");
-  const [password, setPassword] = React.useState( "");
+    const [info, setInfo] = useState({});
+    const [MR_no, setMR_no] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-  
-
- 
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4500/api/v1/chestguarduser/getPatients/${MR_no}`,{withCredentials:true}
-        );
-        console.log(response.data.data)
-        setInfo(response.data.data);
-      } catch (err) {
-        console.error("Error fetching questions:", err);
-      }
+        try {
+            const response = await axios.get(
+               ` http://localhost:4500/api/v1/chestguarduser/getPatients/${MR_no}`,
+                { withCredentials: true }
+            );
+            console.log(response.data.data);
+            setInfo(response.data.data);
+            setError("");
+        } catch (err) {
+            console.error("Error fetching patient:", err);
+            setError("Patient not found!");
+        }
     };
 
-  const genratePassword =()=>{
-    let num = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    const pass = MR_no +"_"+num
-    console.log(pass)
-    setPassword(pass)
-  }
+    const generatePassword = () => {
+        let num = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+        const pass = MR_no + "_" + num;
+        console.log(pass);
+        setPassword(pass);
+    };
 
+    const send = async (_id) => {
+        try {
+            const res = await axios.post(
+                "http://localhost:4500/api/v1/chestguarduser/sendEmail",
+                { _id, password },
+                { withCredentials: true }
+            );
 
-  
-   
-  
- 
+            console.log(res);
+            setSuccess("✅ Email sent successfully!");
+            setError("");
+        } catch (err) {
+            console.error("Error sending email:", err);
+            setError("❌ Failed to send email!");
+            setSuccess("");
+        }
+    };
 
+    return (
+        <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+            <div className="w-full max-w-md bg-white/90 backdrop-blur-lg shadow-lg p-6 rounded-xl border border-black">
+                <h2 className="text-2xl font-bold text-center text-black mb-4">
+                    Send Email to Patient
+                </h2>
 
-  const send = async (_id) => {
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        placeholder="Enter MR No."
+                        value={MR_no}
+                        onChange={(e) => setMR_no(e.target.value)}
+                        className="w-full p-2 border border-black rounded-lg focus:ring-2 focus:ring-black text-black"
+                    />
+                    <button
+                        onClick={fetchData}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+                    >
+                        Search
+                    </button>
+                </div>
 
-    console.log("=====================")
-     
+                {error && <p className="mt-3 text-red-600 text-sm">{error}</p>}
 
-     try {
-       const res = await axios.post(
-        "http://localhost:4500/api/v1/chestguarduser/sendEmail",
-        { _id, password },
-        { withCredentials: true }
-      );
+                {info._id && (
+                    <div className="mt-4 p-4 border border-black rounded-lg bg-gray-50 shadow-sm">
+                        <h3 className="font-bold text-lg text-black">Patient Details</h3>
+                        <p className="text-black"><strong>ID:</strong> {info._id}</p>
+                        <p className="text-black"><strong>MR No:</strong> {info.MR_no}</p>
+                        <p className="text-black"><strong>Name:</strong> {info.fullname}</p>
+                        <p className="text-black"><strong>Email:</strong> {info.email}</p>
 
-      console.log(res)
+                        <div className="flex flex-col gap-2 mt-4">
+                            <button
+                                onClick={generatePassword}
+                                className="bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
+                            >
+                                Generate Password
+                            </button>
 
-      
-     
-     } catch (err) {
-       console.error("Error approving question:", err);
-  }
-   };
-   
+                            {password && (
+                                <div className="text-center text-black font-medium">
+                                    Generated Password: <span className="font-bold">{password}</span>
+                                </div>
+                            )}
 
-  return (
-    
-    <>
-    <div className="bg-black">
-        <input type="text"  value={MR_no} onChange={(e)=>setMR_no(e.target.value)} />
-        <button  onClick={fetchData}>search</button>
-    </div>
-      <h1>Data</h1>
+                            <button
+                                onClick={() => send(info._id)}
+                                className="bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
+                            >
+                                Send to Patient
+                            </button>
+                        </div>
+                    </div>
+                )}
 
-      
-        <div
-          key={info._id}
-          style={{
-            border: "2px solid red",
-            padding: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <h3>{info._id}</h3>
-          <input type="text" readOnly value={info.MR_no} />
-          <h2>{info.fullname}</h2>
-          <input type="text" readOnly value={info.email} />
-
-          
-          <button onClick={() => genratePassword()}>gentrate password</button>
-          <button onClick={() => send(info._id)}>sendto patient</button>
+                {success && <p className="mt-3 text-green-600 text-sm">{success}</p>}
+            </div>
         </div>
-     
-    </>
-  );
+    );
 }
