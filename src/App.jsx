@@ -17,6 +17,7 @@ import CheckQuestion from './admin/checkQuestion.jsx';
 import NewPatient from './admin/NewPatient.jsx';
 import SendEmail from './admin/sendEmail.jsx';
 import Result from './Result.jsx';
+import Articles from './articlesandresearch.jsx';
 
 function App() {
   const router = createBrowserRouter(
@@ -27,29 +28,23 @@ function App() {
         <Route path="/Adminlogin" element={<AdminLogin />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         
-
-       
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
 
-       
         <Route path="/" element={<Protected><Layout /></Protected>}>
-         
           <Route path="home" element={<Home />} />
           <Route path="result" element={<Result />} />
-        
           <Route path="askQuestion" element={<AskQuestion />} />
           <Route path="faqs" element={<Faqs />} />
+          <Route path="articles" element={<Articles />} />
         </Route>
 
         <Route path="/" element={<AdminProtected><AdminLayout /></AdminProtected>}>
-         
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="detection" element={<Detection />} />
           <Route path="newPatient" element={<NewPatient />} />
           <Route path="sendEmail" element={<SendEmail />} />
-         <Route path="checkquestion" element={<CheckQuestion />} />
-          
+          <Route path="checkquestion" element={<CheckQuestion />} />
         </Route>
       </>
     )
@@ -59,4 +54,3 @@ function App() {
 }
 
 export default App;
-

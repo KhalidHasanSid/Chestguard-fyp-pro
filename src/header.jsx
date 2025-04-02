@@ -31,7 +31,7 @@ export default function Header() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/faqs" className="text-black hover:text-slate-600 font-semibold transition">
+          <NavLink to="/articles" className="text-black hover:text-slate-600 font-semibold transition">
             Article & Researches
           </NavLink>
         </li>

@@ -1,4 +1,3 @@
- 
 import React, { useEffect, useState } from "react";
 import axios from "axios";  
 import { Pie } from "react-chartjs-2";
@@ -6,27 +5,25 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-
 export default function AdminDashboard() {
-    const [data, setData] = useState({});  
-    const [cityData,setCityData] =useState([])
+    const [data, setData] = useState(null);  
+    const [cityData, setCityData] = useState([]);
     const [pieData, setPieData] = useState(null);
 
     useEffect(() => {
         const fetchInsights = async () => {
             try {
                 const response = await axios.get("http://localhost:4500/api/v1/chestguard/getInsights");
-                console.log(response)
                 setData(response.data);
-                setCityData(response.data.chk2)  
-                console.log(cityData)
+                setCityData(response.data.chk2 || []);  
             } catch (err) {
-                console.log("Error detected", err);
+                console.log("Error fetching data:", err);
             }
         };
 
         fetchInsights();
     }, []);  
+
     useEffect(() => {
         if (data?.chk?.length >= 2) {
             setPieData({
@@ -34,10 +31,7 @@ export default function AdminDashboard() {
                 datasets: [
                     {
                         data: [data.chk[0].count, data.chk[1].count],
-                        backgroundColor: [
-                            "rgb(250, 246, 246)",
-                            "rgba(5, 0, 0, 0.93)",
-                        ],
+                        backgroundColor: ["#4F46E5", "#EC4899"],
                         borderWidth: 1,
                     },
                 ],
@@ -45,46 +39,42 @@ export default function AdminDashboard() {
         }
     }, [data]);
 
-    if (!data || !data.chk) {
-        return <p>Loading data...</p>;
+    if (!data) {
+        return <p className="text-center text-gray-500 mt-10">Loading data...</p>;
     }
 
-
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-200">
-            <div className="bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 px-10 py-6 rounded-2xl text-center transition-transform transform hover:scale-105">
-                <h1 className="text-2xl font-bold text-gray-800 mb-2">Registered patients</h1>
-                <p className="text-xl text-gray-600">👥 Total Users</p>
-                <p className="text-4xl font-extrabold text-blue-600 mt-2">{data.userCount}</p>  
-            </div>     
+        <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 p-6">
+            
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-center w-full">
+                
+                
+                <div className="bg-white shadow-lg border border-gray-300 px-8 py-11 rounded-2xl text-center hover:scale-105 transition-transform w-64">
+                    <h1 className="text-2xl font-bold text-gray-800 mb-2">Registered Patients</h1>
+                    <p className="text-xl text-gray-600">👥 Total Users</p>
+                    <p className="text-4xl font-extrabold text-blue-600 mt-2">{data.userCount}</p>  
+                </div>     
 
+                {pieData && (
+                    <div className="bg-white shadow-lg p-6 rounded-xl w-64">
+                        <Pie data={pieData} />
+                    </div>
+                )}
+            </div>
 
-         
-                <div className="h-1/2 w-64">{pieData && <Pie data={pieData} />}</div> 
-
-           
-
-                {cityData.map((eachValue) => (
-          <div
-            key={eachValue}
-            className="border border-gray-300 p-4 rounded-lg shadow-sm bg-black"
-          >    <div>{eachValue.city}
-             {
-                eachValue.results.map((i)=>(
-                    <h3 className="font-bold text-black-800">{i.result}:{i.count}</h3>
-                ))
-             }
-          
-          </div>  
-               
-
-
-
-          </div>))}
-
-
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl    border border-black py-3 px-6 ">
+                <span >Current city results</span>
+                {cityData.map((eachValue, index) => (
+                    <div key={index} className="border border-gray-300 p-4 rounded-lg shadow-md bg-white">
+                        <h3 className="font-bold text-gray-800">{eachValue.city}</h3>
+                        <ul className="mt-2 text-gray-600">
+                            {eachValue.results.map((i, idx) => (
+                                <li key={idx} className="text-sm">{i.result}: <span className="font-semibold">{i.count}</span></li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
         </div>    
-
-        
     );
 }

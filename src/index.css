@@ -1,4 +1,4 @@
 @import "tailwindcss";
 html, body {
-    @apply bg-[#012547]  h-full text-white;
+    @apply bg-gray-200  h-full text-white;
   }
