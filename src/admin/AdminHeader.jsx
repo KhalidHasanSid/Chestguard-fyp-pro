@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <nav className="bg-white border border-black py-3 px-6 rounded-full w-3/4 mx-auto mt-7 flex items-center justify-between">
       {/* Logo */}
-      <NavLink to="/home" className="flex items-center">
+      <NavLink to="/dashboard" className="flex items-center">
         <img 
           src="https://img.freepik.com/premium-vector/winged-sword-with-caduceus-cross_837966-1224.jpg?semt=ais_hybrid" 
           alt="Logo"
