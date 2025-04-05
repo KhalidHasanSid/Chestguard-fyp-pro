@@ -67,7 +67,7 @@ export default function CheckQuestion() {
               type="text"
               required
               onChange={(e) => setReply(e.target.value)}
-              className="border border-black px-2 py-1 rounded w-full mt-1"
+              className="border border-black px-2 py-1 rounded w-full mt-1 text-black"
             />
             <div className="mt-3 space-x-2">
               <button

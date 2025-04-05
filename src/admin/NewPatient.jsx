@@ -23,7 +23,7 @@ export default function NewPatient() {
             );
 
             console.log("Registration successful:", response.data);
-            setSuccess("✅ Registration successful! You can now login.");
+            setSuccess("Patient Registered Successfully! ✅");
             setError("");
         } catch (err) {
             console.error("Registration error:", err.response?.data?.message || err.message);

@@ -79,7 +79,8 @@ import Patient from "../models/patient.model.js";
 
   })   
 
-  const SendEmail =asyncHandler(async (req,res)=>{   
+  const SendEmail =asyncHandler(async (req,res)=>{  
+    let information=""  
     console.log("=====================")
     const{_id,password}=req.body
 
@@ -113,9 +114,12 @@ import Patient from "../models/patient.model.js";
         //  res.json (new apiResponse(400,email,"email  not send "))}
         else
           console.log(info);
-        res.json (new apiResponse(200,email,"email send "))
+        information=info
+       
      });
 
+     res.json (new apiResponse(200,information,"email send "))
+        
 
      
    

@@ -6,7 +6,7 @@ export default function SendEmail() {
     const [MR_no, setMR_no] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [success, setSuccess] = useState();
 
     const fetchData = async () => {
         try {
@@ -38,8 +38,9 @@ export default function SendEmail() {
                 { withCredentials: true }
             );
 
-            console.log(res);
-            setSuccess("✅ Email sent successfully!");
+            console.log("CHECK RESPONSE",res.data.statusCode);
+            setSuccess(res.data.statusCode)
+          
             setError("");
         } catch (err) {
             console.error("Error sending email:", err);
@@ -78,7 +79,8 @@ export default function SendEmail() {
                         <h3 className="font-bold text-lg text-black">Patient Details</h3>
                         <p className="text-black"><strong>ID:</strong> {info._id}</p>
                         <p className="text-black"><strong>MR No:</strong> {info.MR_no}</p>
-                        <p className="text-black"><strong>Name:</strong> {info.fullname}</p>
+                        <p className="text-black"><strong>Name:</strong> {info.fullName}</p> 
+                        <p className="text-black"><strong>City:</strong> {info.city}</p>
                         <p className="text-black"><strong>Email:</strong> {info.email}</p>
 
                         <div className="flex flex-col gap-2 mt-4">
@@ -101,11 +103,12 @@ export default function SendEmail() {
                             >
                                 Send to Patient
                             </button>
+                            ()
                         </div>
                     </div>
                 )}
 
-                {success && <p className="mt-3 text-green-600 text-sm">{success}</p>}
+                {success===200 && <p className="mt-3 text-green-600 text-sm">Password Sent Successfully!</p>}
             </div>
         </div>
     );
